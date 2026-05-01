@@ -1,0 +1,14 @@
+# Node (frontend)
+frontend/node_modules/
+frontend/build/
+
+# Java (backend)
+backend/target/
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
