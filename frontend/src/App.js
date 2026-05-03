@@ -3,68 +3,60 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Register from "./pages/Register";
- import AddMenu from "./pages/AddMenu";
+import AddMenu from "./pages/AddMenu";
 import ManageUsers from "./pages/ManageUsers";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-
-  
   return (
-    
-<>
-    <ToastContainer 
-  position="top-right"
-  autoClose={3000}
-  theme="colored"
-/>
-    <BrowserRouter>
-      <Routes>
+    <>
+      <ToastContainer position="top-right" autoClose={3000} theme="colored" />
 
-        {/* Public */}
-        <Route path="/" element={<Login />} />
+      <BrowserRouter>
+        <Routes>
+          {/* Public */}
+          <Route path="/" element={<Login />} />
 
-        {/* Protected */}
-        <Route 
-          path="/dashboard" 
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } 
-        />
+          {/* Protected */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Register />} />
 
-<Route
-  path="/dashboard"
-  element={
-    <ProtectedRoute>
-      <Dashboard />
-    </ProtectedRoute>
-  }
-/>
-<Route
-  path="/vendor/add-menu"
-  element={
-    <ProtectedRoute role="VENDOR">
-      <AddMenu />
-    </ProtectedRoute>
-  }
-/>
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/vendor/add-menu"
+            element={
+              <ProtectedRoute role="VENDOR">
+                <AddMenu />
+              </ProtectedRoute>
+            }
+          />
 
-<Route
-  path="/admin/users"
-  element={
-    <ProtectedRoute role="ADMIN">
-      <ManageUsers />
-    </ProtectedRoute>
-  }
-/>
-      </Routes>
-    </BrowserRouter>
-
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute role="ADMIN">
+                <ManageUsers />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
