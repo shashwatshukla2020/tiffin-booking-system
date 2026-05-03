@@ -1,0 +1,16 @@
+
+
+
+npm install axios
+
+
+npm list react
+npm uninstall react react-dom
+npm install react@18.2.0 react-dom@18.2.0
+Remove-Item -Recurse -Force node_modules
+Remove-Item package-lock.json
+npm start
+npm install
+npm install jwt-decode
+
+npm install react-toastify

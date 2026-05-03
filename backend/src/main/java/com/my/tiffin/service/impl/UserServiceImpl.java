@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -41,7 +42,17 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         // Business Logic: Assign default role
-        user.setRoles(Set.of(Role.CUSTOMER));
+        // ✅ FIX: Use roles from DTO if provided
+        if (dto.getRoles() != null && !dto.getRoles().isEmpty()) {
+            user.setRoles(
+                    dto.getRoles().stream()
+                            .map(Role::valueOf)
+                            .collect(Collectors.toSet())
+            );
+        } else {
+            // Default role
+            user.setRoles(Set.of(Role.CUSTOMER));
+        }
 
         // Save to DB
         User saved = repository.save(user);

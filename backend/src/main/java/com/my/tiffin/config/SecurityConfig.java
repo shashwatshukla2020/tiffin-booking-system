@@ -27,13 +27,14 @@ public class SecurityConfig {
 
 
         http
+                .cors(cors -> {})   // ✅ ADD THIS
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/api/users/register").permitAll()
 
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")   // 🔒 admin only
                         .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "CUSTOMER")
-
+                        .requestMatchers("/api/menu/**").hasRole("VENDOR")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
