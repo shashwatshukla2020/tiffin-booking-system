@@ -3,6 +3,7 @@ package com.my.tiffin.controller;
 import com.my.tiffin.dto.user.UserRequestDTO;
 import com.my.tiffin.dto.user.UserResponseDTO;
 import com.my.tiffin.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class UserController {
 
     // ✅ Register User
     @PostMapping("/register")
-    public UserResponseDTO registerUser(@RequestBody UserRequestDTO dto) {
+    public UserResponseDTO registerUser(@Valid @RequestBody UserRequestDTO dto) {
         return service.registerUser(dto);
     }
 

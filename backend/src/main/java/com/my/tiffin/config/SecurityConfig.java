@@ -30,12 +30,19 @@ public class SecurityConfig {
                 .cors(cors -> {})   // ✅ ADD THIS
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/api/users/register").permitAll()
 
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")   // 🔒 admin only
+                        // ✅ PUBLIC (always first)
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/users/register").permitAll()
+
+                        // 🔐 PROTECTED
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "CUSTOMER")
                         .requestMatchers("/api/menu/**").hasRole("VENDOR")
+
+                        // 🔒 fallback
                         .anyRequest().authenticated()
+
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

@@ -12,21 +12,42 @@ function Register() {
     const navigate = useNavigate();
 
     const handleRegister = async () => {
-        try {
-            await API.post("/users/register", {
-                name,
-                email,
-                password,
-                roles: [role]
-            });
 
-            toast.success("Registered successfully");
-            navigate("/"); // redirect to login
+    if (!name.trim()) {
+        return toast.error("Name is required");
+    }
 
-        } catch (err) {
-            toast.error("Registration failed");
-        }
-    };
+    if (!email.trim()) {
+        return toast.error("Email is required");
+    }
+
+    if (!email.includes("@")) {
+        return toast.error("Enter valid email");
+    }
+
+    if (!password.trim()) {
+        return toast.error("Password is required");
+    }
+
+    if (password.length < 4) {
+        return toast.error("Password too short");
+    }
+
+    try {
+        await API.post("/users/register", {
+            name,
+            email,
+            password,
+            roles: [role]
+        });
+
+        toast.success("Registered successfully");
+        navigate("/");
+
+    } catch (err) {
+        toast.error("Registration failed");
+    }
+};
 
     return (
         <div className="auth-container">

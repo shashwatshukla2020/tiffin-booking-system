@@ -29,9 +29,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
+        String path = request.getServletPath();
+
+        // ✅ 1. Skip public APIs (VERY IMPORTANT)
+        if (path.startsWith("/api/auth") || path.equals("/api/users/register")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = request.getHeader("Authorization");
 
-        // ✅ Check header
+        // ✅ 2. Check if token exists
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
             String token = authHeader.substring(7);
@@ -44,9 +52,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     // 🔥 Extract roles from JWT
                     List<String> roles = jwtUtil.extractRoles(token);
 
-                    // 🔥 Convert roles → authorities
+                    // 🔥 Convert roles → authorities (IMPORTANT: ROLE_ prefix)
                     var authorities = roles.stream()
-                            .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) // ✅ FIX
+                            .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                             .toList();
 
                     // 🔥 Create authentication object
@@ -57,22 +65,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     authorities
                             );
 
-                    // 🔥 SET in Spring Security
+                    // 🔥 Set authentication in context
                     SecurityContextHolder.getContext().setAuthentication(authToken);
 
                     System.out.println("✅ Authenticated: " + email + " Roles: " + roles);
                 }
 
             } catch (Exception e) {
+                // ❗ DO NOT BLOCK REQUEST
                 System.out.println("❌ Invalid JWT Token");
 
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Invalid JWT Token");
-                return;
-
+                // Clear context just in case
+                SecurityContextHolder.clearContext();
             }
         }
 
+        // ✅ 3. Always continue filter chain
         filterChain.doFilter(request, response);
     }
 }

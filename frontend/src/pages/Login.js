@@ -9,20 +9,35 @@ function Login() {
 
     const navigate = useNavigate();
 
-    const handleLogin = async () => {
-        try {
-            const res = await API.post("/auth/login", {
-                email,
-                password
-            });
+   
 
-            localStorage.setItem("token", res.data.token);
-            navigate("/dashboard");
+const handleLogin = async () => {
 
-        } catch (err) {
-            toast.error("Invalid credentials");
-        }
-    };
+    // ✅ Validation
+    if (!email.trim()) {
+        return toast.error("Email is required");
+    }
+
+    if (!password.trim()) {
+        return toast.error("Password is required");
+    }
+
+    if (password.length < 4) {
+        return toast.error("Password must be at least 4 characters");
+    }
+
+    try {
+        const res = await API.post("/auth/login", { email, password });
+
+        localStorage.setItem("token", res.data.token);
+        toast.success("Login successful");
+
+        navigate("/dashboard");
+
+    } catch (err) {
+        toast.error("Invalid credentials");
+    }
+};
 
     return (
         <div className="auth-container">
