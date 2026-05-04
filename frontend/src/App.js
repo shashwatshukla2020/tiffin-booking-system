@@ -7,7 +7,7 @@ import AddMenu from "./pages/AddMenu";
 import ManageUsers from "./pages/ManageUsers";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import MenuList from "./pages/MenuList";
 function App() {
   return (
     <>
@@ -52,6 +52,15 @@ function App() {
             element={
               <ProtectedRoute role="ADMIN">
                 <ManageUsers />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/menu"
+            element={
+              <ProtectedRoute role="CUSTOMER">
+                <MenuList />
               </ProtectedRoute>
             }
           />

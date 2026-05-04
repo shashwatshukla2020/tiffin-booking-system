@@ -1,0 +1,49 @@
+import { useEffect, useState } from "react";
+import API from "../services/api";
+import { toast } from "react-toastify";
+import "./Menu.css";
+
+function MenuList() {
+
+    const [menus, setMenus] = useState([]);
+
+    const fetchMenus = async () => {
+        try {
+            const res = await API.get("/menu");
+            setMenus(res.data);
+        } catch (err) {
+            toast.error("Failed to load menu");
+        }
+    };
+
+    useEffect(() => {
+        fetchMenus();
+    }, []);
+
+    const handleOrder = (menuId) => {
+        toast.success("Order placed (demo)");
+        console.log("Ordered menu:", menuId);
+    };
+
+    return (
+        <div className="menu-container">
+            <h2>Available Tiffin Menus</h2>
+
+            <div className="menu-grid">
+                {menus.map((item) => (
+                    <div key={item.id} className="menu-card">
+                        <h3>{item.name}</h3>
+                        <p>{item.description}</p>
+                        <h4>₹ {item.price}</h4>
+
+                        <button onClick={() => handleOrder(item.id)}>
+                            Order Now
+                        </button>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+export default MenuList;
