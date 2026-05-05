@@ -9,6 +9,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MenuList from "./pages/MenuList";
 import MyOrders from "./pages/MyOrders";
+import VendorOrders from "./pages/VendorOrders";
+
+
 function App() {
   return (
     <>
@@ -74,6 +77,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="/vendor/orders"
+            element={
+              <ProtectedRoute role="VENDOR">
+                <VendorOrders />
+              </ProtectedRoute>
+            }
+          />
+
         </Routes>
       </BrowserRouter>
     </>

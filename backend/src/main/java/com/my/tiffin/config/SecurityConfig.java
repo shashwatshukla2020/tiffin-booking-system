@@ -40,7 +40,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "CUSTOMER")
                         .requestMatchers("/api/menu/**") .hasAnyRole("CUSTOMER", "VENDOR", "ADMIN")
                         .requestMatchers("/api/orders/**").hasRole("CUSTOMER")
-
+                        .requestMatchers("/api/orders/all").hasRole("VENDOR")
+                        .requestMatchers("/api/orders/*/status").hasRole("VENDOR")
                         // 🔒 fallback
                         .anyRequest().authenticated()
 

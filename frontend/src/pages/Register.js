@@ -73,7 +73,7 @@ function Register() {
                 />
 
                 <select onChange={(e) => setRole(e.target.value)}>
-                 
+                    <option value="ADMIN">Admin</option>
                     <option value="CUSTOMER">Customer</option>
                     <option value="VENDOR">Vendor</option>
                     <option value="DELIVERY">Delivery</option>

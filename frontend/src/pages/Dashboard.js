@@ -58,7 +58,13 @@ function Dashboard() {
                             <PlusCircle size={18}/> Add Menu
                         </p>
                         <p><Utensils size={18}/> My Menus</p>
-                        <p><List size={18}/> Vendor Orders</p>
+
+                        <p onClick={() => navigate("/vendor/orders")}>
+                            <List size={18}/> Vendor Orders
+                            </p>
+
+
+                        
                     </div>
                 )}
 

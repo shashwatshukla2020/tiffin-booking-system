@@ -31,4 +31,23 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getMyOrders(String email) {
         return repository.findByCustomerEmail(email);
     }
+
+
+    @Override
+    public List<Order> getAllOrders() {
+        return repository.findAll();
+    }
+
+    @Override
+    public Order updateStatus(String orderId, String status) {
+
+        Order order = repository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        order.setStatus(status);
+
+        return repository.save(order);
+    }
+
+
 }

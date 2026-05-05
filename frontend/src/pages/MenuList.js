@@ -7,12 +7,16 @@ function MenuList() {
 
     const [menus, setMenus] = useState([]);
 
+    const [loading, setLoading] = useState(true);
+
     const fetchMenus = async () => {
         try {
             const res = await API.get("/menu");
             setMenus(res.data);
         } catch (err) {
             toast.error("Failed to load menu");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -34,23 +38,26 @@ function MenuList() {
     }
 };
 
+
     return (
         <div className="menu-container">
-            <h2>Available Tiffin Menus</h2>
+            {menus.length === 0 ? (
+    <p>No menus available</p>
+) : (
+    <div className="menu-grid">
+        {menus.map((item) => (
+            <div key={item.id} className="menu-card">
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+                <h4>₹ {item.price}</h4>
 
-            <div className="menu-grid">
-                {menus.map((item) => (
-                    <div key={item.id} className="menu-card">
-                        <h3>{item.name}</h3>
-                        <p>{item.description}</p>
-                        <h4>₹ {item.price}</h4>
-
-                        <button onClick={() => handleOrder(item)}>
-                            Order Now
-                        </button>
-                    </div>
-                ))}
+                <button onClick={() => handleOrder(item)}>
+                    Order Now
+                </button>
             </div>
+        ))}
+    </div>
+)}
         </div>
     );
 }

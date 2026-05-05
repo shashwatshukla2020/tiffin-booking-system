@@ -8,4 +8,8 @@ public interface OrderService {
     Order placeOrder(Order order, String email);
 
     List<Order> getMyOrders(String email);
+
+    List<Order> getAllOrders();
+
+    Order updateStatus(String orderId, String status);
 }
