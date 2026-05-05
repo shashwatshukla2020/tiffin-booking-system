@@ -14,3 +14,4 @@ npm install
 npm install jwt-decode
 
 npm install react-toastify
+npm install lucide-react

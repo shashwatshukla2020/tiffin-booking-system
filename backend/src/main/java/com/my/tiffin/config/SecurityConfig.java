@@ -38,7 +38,8 @@ public class SecurityConfig {
                         // 🔐 PROTECTED
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "CUSTOMER")
-                        .requestMatchers("/api/menu/**").hasRole("VENDOR")
+                        .requestMatchers("/api/menu/**") .hasAnyRole("CUSTOMER", "VENDOR", "ADMIN")
+                        .requestMatchers("/api/orders/**").hasRole("CUSTOMER")
 
                         // 🔒 fallback
                         .anyRequest().authenticated()

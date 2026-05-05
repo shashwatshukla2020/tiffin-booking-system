@@ -20,10 +20,19 @@ function MenuList() {
         fetchMenus();
     }, []);
 
-    const handleOrder = (menuId) => {
-        toast.success("Order placed (demo)");
-        console.log("Ordered menu:", menuId);
-    };
+    const handleOrder = async (item) => {
+    try {
+        await API.post("/orders", {
+            menuId: item.id,
+            menuName: item.name,
+            price: item.price
+        });
+
+        toast.success("Order placed successfully!");
+    } catch (err) {
+        toast.error("Failed to place order");
+    }
+};
 
     return (
         <div className="menu-container">
@@ -36,7 +45,7 @@ function MenuList() {
                         <p>{item.description}</p>
                         <h4>₹ {item.price}</h4>
 
-                        <button onClick={() => handleOrder(item.id)}>
+                        <button onClick={() => handleOrder(item)}>
                             Order Now
                         </button>
                     </div>
