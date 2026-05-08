@@ -2,17 +2,36 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 import { toast } from "react-toastify";
 import "./Orders.css";
+import Layout from "../components/Layout";
 
 function MyOrders() {
 
     const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // ================= FETCH ORDERS =================
 
     const fetchOrders = async () => {
+
         try {
+
             const res = await API.get("/orders/my");
-            setOrders(res.data);
+
+            // ✅ Ignore cart items if using CART status
+            const filteredOrders = res.data.filter(
+                (order) => order.status !== "CART"
+            );
+
+            setOrders(filteredOrders);
+
         } catch (err) {
+
             toast.error("Failed to load orders");
+
+        } finally {
+
+            setLoading(false);
+
         }
     };
 
@@ -21,32 +40,104 @@ function MyOrders() {
     }, []);
 
     return (
-        <div className="orders-container">
-            <h2>My Orders</h2>
 
-            {orders.length === 0 ? (
-                <p>No orders yet</p>
-            ) : (
-                <div className="orders-grid">
-                    {orders.map((order) => (
-                        <div key={order.id} className="order-card">
-                            <h3>{order.menuName}</h3>
-                            <p>₹ {order.price}</p>
+        <Layout title="Order History">
 
-                            <p>Status: 
-                                <span className={`status ${order.status.toLowerCase()}`}>
-                                    {order.status}
-                                </span>
-                            </p>
+            <div className="orders-container">
 
-                            <p className="date">
-                                {new Date(order.createdAt).toLocaleString()}
-                            </p>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
+                {/* ================= HEADER ================= */}
+                <br></br>
+
+                {/* ================= LOADING ================= */}
+
+                {loading ? (
+
+                    <div className="loading-orders">
+
+                        <p>Loading your orders...</p>
+
+                    </div>
+
+                ) : orders.length === 0 ? (
+
+                    /* ================= EMPTY ================= */
+
+                    <div className="empty-orders">
+
+                        <h3>🛒 No Orders Yet</h3>
+
+                        <p>
+                            You haven't placed any orders yet.
+                            Explore delicious homemade meals and order now.
+                        </p>
+
+                    </div>
+
+                ) : (
+
+                    /* ================= ORDERS LIST ================= */
+
+                    <div className="orders-list">
+
+                        {orders.map((order) => (
+
+                            <div
+                                key={order.id}
+                                className="order-row"
+                            >
+
+                                {/* ================= LEFT ================= */}
+
+                                <div className="order-left">
+
+                                    <h3>
+                                        {order.menuName}
+                                    </h3>
+
+                                    <p className="order-date">
+
+                                        {new Date(order.createdAt)
+                                            .toLocaleString()}
+
+                                    </p>
+
+                                </div>
+
+                                {/* ================= CENTER ================= */}
+
+                                <div className="order-center">
+
+                                    <span className="price">
+
+                                        ₹ {order.price}
+
+                                    </span>
+
+                                </div>
+
+                                {/* ================= RIGHT ================= */}
+
+                                <div className="order-right">
+
+                                    <span
+                                        className={`status ${order.status.toLowerCase()}`}
+                                    >
+                                        {order.status}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        ))}
+
+                    </div>
+
+                )}
+
+            </div>
+
+        </Layout>
     );
 }
 

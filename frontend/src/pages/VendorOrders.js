@@ -2,17 +2,28 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 import { toast } from "react-toastify";
 import "./Orders.css";
+import Layout from "../components/Layout";
 
 function VendorOrders() {
 
     const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const fetchOrders = async () => {
+
         try {
+
             const res = await API.get("/orders/all");
             setOrders(res.data);
+
         } catch (err) {
+
             toast.error("Failed to load orders");
+
+        } finally {
+
+            setLoading(false);
+
         }
     };
 
@@ -21,43 +32,139 @@ function VendorOrders() {
     }, []);
 
     const updateStatus = async (id, status) => {
+
         try {
+
             await API.put(`/orders/${id}/status?status=${status}`);
-            toast.success("Status updated");
+
+            toast.success("Order status updated");
+
             fetchOrders();
+
         } catch (err) {
+
             toast.error("Update failed");
+
         }
     };
 
     return (
-        <div className="orders-container">
-            <h2>Vendor Orders</h2>
 
-            <div className="orders-grid">
-                {orders.map((order) => (
-                    <div key={order.id} className="order-card">
+        <Layout title="Vendor Orders">
 
-                        <h3>{order.menuName}</h3>
-                        <p>₹ {order.price}</p>
-                        <p>{order.customerEmail}</p>
+            <div className="orders-container">
 
-                        <p>Status: <b>{order.status}</b></p>
+                {/* ================= HEADER ================= */}
+                <div className="orders-header">
 
-                        <div style={{ marginTop: "10px" }}>
-                            <button onClick={() => updateStatus(order.id, "PREPARING")}>
-                                Preparing
-                            </button>
+                    <h1>📦 Vendor Orders</h1>
 
-                            <button onClick={() => updateStatus(order.id, "DELIVERED")}>
-                                Delivered
-                            </button>
-                        </div>
+                    <p className="orders-subtitle">
+                        Manage customer orders and update delivery status.
+                    </p>
+
+                </div>
+
+                {/* ================= LOADING ================= */}
+                {loading ? (
+
+                    <div className="loading-orders">
+                        <p>Loading vendor orders...</p>
+                    </div>
+
+                ) : orders.length === 0 ? (
+
+                    /* ================= EMPTY ================= */
+                    <div className="empty-orders">
+
+                        <h3>No Orders Found</h3>
+
+                        <p>
+                            Customer orders will appear here once placed.
+                        </p>
 
                     </div>
-                ))}
+
+                ) : (
+
+                    /* ================= ORDERS ================= */
+                    <div className="orders-list">
+
+                        {orders.map((order) => (
+
+                            <div
+                                key={order.id}
+                                className="order-row"
+                            >
+
+                                {/* LEFT */}
+                                <div className="order-left">
+
+                                    <h3>{order.menuName}</h3>
+
+                                    <p className="customer-email">
+                                        {order.customerEmail}
+                                    </p>
+
+                                    <p className="order-date">
+                                        {new Date(order.createdAt).toLocaleString()}
+                                    </p>
+
+                                </div>
+
+                                {/* CENTER */}
+                                <div className="order-center">
+
+                                    <span className="price">
+                                        ₹ {order.price}
+                                    </span>
+
+                                </div>
+
+                                {/* RIGHT */}
+                                <div className="order-right">
+
+                                    <span
+                                        className={`status ${order.status.toLowerCase()}`}
+                                    >
+                                        {order.status}
+                                    </span>
+
+                                    <div className="action-buttons">
+
+                                        <button
+                                            className="prepare-btn"
+                                            onClick={() =>
+                                                updateStatus(order.id, "PREPARING")
+                                            }
+                                        >
+                                            Preparing
+                                        </button>
+
+                                        <button
+                                            className="deliver-btn"
+                                            onClick={() =>
+                                                updateStatus(order.id, "DELIVERED")
+                                            }
+                                        >
+                                            Delivered
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        ))}
+
+                    </div>
+
+                )}
+
             </div>
-        </div>
+
+        </Layout>
     );
 }
 

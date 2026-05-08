@@ -3,8 +3,8 @@
     display: flex;
     height: 100vh;
     font-family: 'Inter', sans-serif;
-    background: #0f172a;
-    color: #e2e8f0;
+    /* background: #0f172a; */
+    /* color: #e2e8f0; */
 }
 
 /* Sidebar */
@@ -15,18 +15,19 @@
     border-right: 1px solid #1e293b;
     display: flex;
     flex-direction: column;
+    color: #e2e8f0;
 }
 
 .sidebar h2 {
     font-size: 20px;
     font-weight: 700;
     color: #38bdf8;
-    margin-bottom: 32px;
+    
 }
 
 /* Menu Sections */
 .menu-section {
-    margin-bottom: 28px;
+    margin-bottom: 5px;
 }
 
 .menu-section h4 {
@@ -57,21 +58,40 @@
     font-weight: 600;
 }
 
-/* Logout */
+/* Logout Button */
 .logout {
     margin-top: auto;
     padding: 10px 12px;
     border-radius: 8px;
-    color: #f87171;
+    color: #ffffff;
     cursor: pointer;
+    /* Improved base colors */
+    background: #b91c1c; 
+    border: 1px solid #f87171;
+    text-align: center;
+    transition: all 0.3s ease; /* Smooth transition for the hover effect */
+    font-weight: 500;
 }
 
+/* Hover State */
+.logout:hover {
+    background: #dc2626; /* Lighter red on hover */
+    border-color: #fca5a5; 
+    box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3); /* Subtle glow */
+    transform: translateY(-1px); /* Slight lift effect */
+}
+
+/* Active (Click) State */
+.logout:active {
+    transform: translateY(0px);
+    background: #991b1b; /* Darker red when pressed */
+}
 /* Main Content */
 .main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 28px 32px;
+    padding: 4px 4px;
 }
 
 /* Navbar */
@@ -79,8 +99,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #1e293b;
+    padding: 5px 20px;
+    /* border: 1px solid #1e293b; */
+    border-radius: 10px;
+    background-color: #020617;
+    color: white;
 }
 
 .navbar h3 {
@@ -113,7 +136,7 @@
 
 .role {
     font-size: 12px;
-    color: #94a3b8;
+    color: #404b5a;
 }
 
 /* Cards Layout */
@@ -214,3 +237,6 @@
     transition: box-shadow 0.3s ease;
 }
 
+.page-content{
+    padding: 5px 25px;
+}
