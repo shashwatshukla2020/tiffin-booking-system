@@ -103,7 +103,7 @@ function MenuList() {
                 });
             }
 
-            toast.success("Cart updated");
+            //toast.success("Cart updated");
 
         } catch (err) {
 

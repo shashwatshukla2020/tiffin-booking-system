@@ -92,4 +92,52 @@ public class UserServiceImpl implements UserService {
                         .collect(Collectors.toSet())
         );
     }
+
+    // 🔹 Update User
+    @Override
+    public UserResponseDTO updateUser(String id, UserRequestDTO dto) {
+
+        User user = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Update Name
+        user.setName(dto.getName());
+
+        // Update Email
+        user.setEmail(dto.getEmail());
+
+        // Update Password only if entered
+        if (dto.getPassword() != null &&
+                !dto.getPassword().isBlank()) {
+
+            user.setPassword(
+                    passwordEncoder.encode(dto.getPassword())
+            );
+        }
+
+        // Update Roles
+        if (dto.getRoles() != null &&
+                !dto.getRoles().isEmpty()) {
+
+            user.setRoles(
+                    dto.getRoles().stream()
+                            .map(Role::valueOf)
+                            .collect(Collectors.toSet())
+            );
+        }
+
+        User updated = repository.save(user);
+
+        return mapToResponse(updated);
+    }
+
+    // 🔹 Delete User
+    @Override
+    public void deleteUser(String id) {
+
+        User user = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        repository.delete(user);
+    }
 }

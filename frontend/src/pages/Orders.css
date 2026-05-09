@@ -1,10 +1,8 @@
 /* ================= CONTAINER ================= */
 
 .orders-container {
-     
-     
-    /* background: #0f172a;
-    color: #e2e8f0; */
+    padding: 20px;
+    color: #e2e8f0;
 }
 
 
@@ -17,13 +15,12 @@
 .orders-header h1 {
     font-size: 28px;
     font-weight: 700;
-   
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .orders-subtitle {
     color: #94a3b8;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.6;
 }
 
@@ -34,7 +31,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 300px;
+    min-height: 300px;
+
     color: #94a3b8;
     font-size: 15px;
 }
@@ -43,24 +41,30 @@
 /* ================= EMPTY ================= */
 
 .empty-orders {
-    /* background: #1e293b; */
+    background: #1e293b;
     border: 1px solid #334155;
-    border-radius: 18px;
-    padding: 50px 30px;
+    border-radius: 20px;
+
+    padding: 60px 20px;
     text-align: center;
-    margin-top: 30px;
+
+    transition: 0.25s ease;
+}
+
+.empty-orders:hover {
+    transform: translateY(-3px);
+    border-color: #38bdf8;
 }
 
 .empty-orders h3 {
-     
-    font-size: 22px;
-    margin-bottom: 10px;
+    font-size: 24px;
+    margin-bottom: 12px;
+    color: #f8fafc;
 }
 
 .empty-orders p {
-     
-    font-size: 14px;
-    max-width: 450px;
+    color: #94a3b8;
+    max-width: 500px;
     margin: auto;
     line-height: 1.7;
 }
@@ -71,7 +75,7 @@
 .orders-list {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
 }
 
 
@@ -82,17 +86,25 @@
     border: 1px solid #334155;
     border-radius: 18px;
 
-    padding: 22px 24px;
+    padding: 5px 20px;
 
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
     align-items: center;
-    justify-content: space-between;
+    gap: 20px;
 
-    transition: all 0.25s ease;
+    opacity: 0;
+
+    animation: orderCardUp 0.35s ease forwards;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 .order-row:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     border-color: #38bdf8;
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.4);
 }
@@ -101,14 +113,25 @@
 /* ================= LEFT ================= */
 
 .order-left {
-    flex: 1;
+    min-width: 0;
 }
 
 .order-left h3 {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
     color: #f8fafc;
+
     margin-bottom: 8px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    transition: color 0.25s ease;
+}
+
+.order-row:hover .order-left h3 {
+    color: #38bdf8;
 }
 
 .order-date {
@@ -120,7 +143,7 @@
 /* ================= CENTER ================= */
 
 .order-center {
-    width: 150px;
+    min-width: 120px;
     text-align: center;
 }
 
@@ -128,15 +151,23 @@
     font-size: 22px;
     font-weight: 700;
     color: #38bdf8;
+
+    transition: transform 0.25s ease;
+}
+
+.order-row:hover .price {
+    transform: scale(1.05);
 }
 
 
 /* ================= RIGHT ================= */
 
 .order-right {
-    width: 180px;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+
+    min-width: 140px;
 }
 
 
@@ -144,12 +175,24 @@
 
 .status {
     padding: 8px 16px;
+
     border-radius: 999px;
 
     font-size: 12px;
     font-weight: 700;
+
     letter-spacing: 0.5px;
     text-transform: uppercase;
+
+    white-space: nowrap;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease;
+}
+
+.order-row:hover .status {
+    transform: scale(1.04);
 }
 
 
@@ -171,22 +214,69 @@
 }
 
 
+/* ================= PAGE LOAD ANIMATION ================= */
+
+.order-row:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.order-row:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.order-row:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.order-row:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.order-row:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.order-row:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+
+/* ================= KEYFRAMES ================= */
+
+@keyframes orderCardUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 768px) {
 
     .orders-container {
-        padding: 20px;
+        padding: 16px;
     }
 
     .order-row {
-        flex-direction: column;
+
+        grid-template-columns: 1fr;
         align-items: flex-start;
-        gap: 18px;
+
+        gap: 16px;
     }
 
     .order-center,
     .order-right {
+
         width: 100%;
         text-align: left;
         justify-content: flex-start;
@@ -194,6 +284,10 @@
 
     .price {
         font-size: 20px;
+    }
+
+    .order-left h3 {
+        white-space: normal;
     }
 
 }

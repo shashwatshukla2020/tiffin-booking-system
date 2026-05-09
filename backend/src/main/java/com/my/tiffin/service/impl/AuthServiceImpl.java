@@ -9,6 +9,8 @@ import com.my.tiffin.service.AuthService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -52,6 +54,14 @@ public class AuthServiceImpl implements AuthService {
                         .toList()
         );
 
-        return new AuthResponseDTO(token, "Login successful");
+        return new AuthResponseDTO(
+                token,
+                "Login successful",
+                user.getName(),
+                user.getRoles()
+                        .stream()
+                        .map(Enum::name)
+                        .collect(Collectors.toSet())
+        );
     }
 }

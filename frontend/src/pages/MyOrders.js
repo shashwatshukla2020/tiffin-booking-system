@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
 import { toast } from "react-toastify";
-import "./Orders.css";
+
 import Layout from "../components/Layout";
+
+import "./Orders.css";
 
 function MyOrders() {
 
@@ -17,7 +19,8 @@ function MyOrders() {
 
             const res = await API.get("/orders/my");
 
-            // ✅ Ignore cart items if using CART status
+            // ================= REMOVE CART ITEMS =================
+
             const filteredOrders = res.data.filter(
                 (order) => order.status !== "CART"
             );
@@ -33,20 +36,25 @@ function MyOrders() {
             setLoading(false);
 
         }
+
     };
 
+    // ================= LOAD ON PAGE OPEN =================
+
     useEffect(() => {
+
         fetchOrders();
+
     }, []);
 
     return (
 
         <Layout title="Order History">
 
-            <div className="orders-container">
+            <div className="orders-container fade-in">
 
                 {/* ================= HEADER ================= */}
-                <br></br>
+ 
 
                 {/* ================= LOADING ================= */}
 
@@ -60,15 +68,17 @@ function MyOrders() {
 
                 ) : orders.length === 0 ? (
 
-                    /* ================= EMPTY ================= */
+                    /* ================= EMPTY STATE ================= */
 
                     <div className="empty-orders">
 
                         <h3>🛒 No Orders Yet</h3>
 
                         <p>
+
                             You haven't placed any orders yet.
-                            Explore delicious homemade meals and order now.
+                            Explore delicious homemade meals and place your first order.
+
                         </p>
 
                     </div>
@@ -96,8 +106,7 @@ function MyOrders() {
 
                                     <p className="order-date">
 
-                                        {new Date(order.createdAt)
-                                            .toLocaleString()}
+                                        {new Date(order.createdAt).toLocaleString()}
 
                                     </p>
 
@@ -120,9 +129,11 @@ function MyOrders() {
                                 <div className="order-right">
 
                                     <span
-                                        className={`status ${order.status.toLowerCase()}`}
+                                        className={`status ${(order.status || "").toLowerCase()}`}
                                     >
+
                                         {order.status}
+
                                     </span>
 
                                 </div>
@@ -138,7 +149,9 @@ function MyOrders() {
             </div>
 
         </Layout>
+
     );
+
 }
 
 export default MyOrders;

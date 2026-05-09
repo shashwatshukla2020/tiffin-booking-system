@@ -30,6 +30,8 @@ const handleLogin = async () => {
         const res = await API.post("/auth/login", { email, password });
 
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("name", res.data.name);
+        localStorage.setItem("roles", JSON.stringify(res.data.roles));
         toast.success("Login successful");
 
         navigate("/dashboard");

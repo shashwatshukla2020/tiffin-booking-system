@@ -5,6 +5,7 @@
     font-family: 'Inter', sans-serif;
     /* background: #0f172a; */
     /* color: #e2e8f0; */
+    overflow-y: hidden;
 }
 
 /* Sidebar */
@@ -87,11 +88,16 @@
     background: #991b1b; /* Darker red when pressed */
 }
 /* Main Content */
+/* Main Content */
 .main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 4px 4px;
+
+    height: 100vh;
+    overflow: hidden;
+
+    padding: 4px;
 }
 
 /* Navbar */
@@ -240,3 +246,7 @@
 .page-content{
     padding: 5px 25px;
 }
+
+
+
+/* PAGE CONTENT */.page-content {    flex: 1;    overflow-y: auto;    overflow-x: hidden;    padding: 10px 25px 25px;    scrollbar-width: thin;    scrollbar-color: #334155 #0f172a;}/* Chrome / Edge / Brave */.page-content::-webkit-scrollbar {    width: 8px;}.page-content::-webkit-scrollbar-track {    background: #0f172a;    border-radius: 10px;}.page-content::-webkit-scrollbar-thumb {    background: #334155;    border-radius: 10px;}.page-content::-webkit-scrollbar-thumb:hover {    background: #475569;}

@@ -16,4 +16,8 @@ public interface UserService {
 
     UserResponseDTO getUserById(String id);
     //Used to retrieve a specific user by ID and return it as a response DTO
+
+    UserResponseDTO updateUser(String id, UserRequestDTO dto);
+
+    void deleteUser(String id);
 }

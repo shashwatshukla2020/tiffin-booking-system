@@ -196,3 +196,99 @@
         font-size: 16px;
     }
 }
+
+
+/* ================= ACTION AREA ================= */
+
+.cart-action {
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ================= ADD TO CART BUTTON ================= */
+
+.add-cart-btn {
+    width: 100%;
+    height: 42px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-cart-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+/* ================= QUANTITY BOX ================= */
+
+.qty-box {
+
+    width: 100%;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #0f172a;
+
+    border: 1px solid #334155;
+    border-radius: 12px;
+
+    overflow: hidden;
+        gap: 60px;
+}
+
+/* ================= +/- BUTTONS ================= */
+
+.qty-btn {
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    background: transparent;
+
+    color: #f8fafc;
+
+    font-size: 22px;
+    font-weight: 500;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qty-btn:hover {
+    background: rgba(59, 130, 246, 0.12);
+    color: #38bdf8;
+}
+
+/* ================= QUANTITY NUMBER ================= */
+
+.qty-count {
+
+    flex: 1;
+
+    text-align: center;
+
+    color: #f8fafc;
+
+    font-size: 15px;
+    font-weight: 600;
+}

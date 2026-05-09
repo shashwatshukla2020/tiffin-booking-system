@@ -1,0 +1,424 @@
+/* =========================================================
+   MANAGE USERS PAGE
+========================================================= */
+
+.manage-users-container {
+    padding: 24px;
+    color: #e2e8f0;
+   
+}
+
+/* =========================================================
+   TOP CONTROLS
+========================================================= */
+
+.top-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+/* ================= SEARCH ================= */
+
+.search-box {
+    flex: 1;
+    min-width: 280px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 0 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    transition: 0.2s ease;
+}
+
+.search-box:focus-within {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+}
+
+.search-box svg {
+    color: #94a3b8;
+}
+
+.search-box input {
+    flex: 1;
+    height: 48px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #f8fafc;
+    font-size: 14px;
+}
+
+.search-box input::placeholder {
+    color: #64748b;
+}
+
+/* ================= SORT ================= */
+
+.sort-box {
+    min-width: 220px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 0 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sort-box svg {
+    color: #94a3b8;
+}
+
+.sort-box select {
+    flex: 1;
+    height: 48px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #f8fafc;
+    font-size: 14px;
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* Dropdown options */
+.sort-box select option {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 20px;
+    font-size: 15px;
+    
+}
+
+/* Hover effect (works in some browsers) */
+.sort-box select option:hover {
+    background: #334155;
+}
+
+/* Focus */
+.sort-box select:focus {
+    color: #38bdf8;
+}
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.user-form-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 22px;
+    padding: 26px;
+    margin-bottom: 28px;
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ================= FORM TITLE ================= */
+
+.user-form-card h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 22px;
+    font-weight: 700;
+    color: #f8fafc;
+
+    margin-bottom: 24px;
+}
+
+.user-form-card h2 svg {
+    color: #38bdf8;
+}
+
+/* ================= FORM GRID ================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 22px;
+}
+
+/* ================= INPUTS ================= */
+
+.form-grid input,
+.form-grid select {
+    width: 100%;
+    height: 50px;
+
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 14px;
+
+    padding: 0 16px;
+
+    color: #f8fafc;
+    font-size: 14px;
+
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.form-grid input:focus,
+.form-grid select:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+}
+
+.form-grid input::placeholder {
+    color: #64748b;
+}
+
+/* =========================================================
+   SAVE BUTTON
+========================================================= */
+
+.save-btn {
+    border: none;
+    outline: none;
+
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+
+    padding: 13px 22px;
+    border-radius: 14px;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+    box-shadow:
+        0 8px 18px rgba(59, 130, 246, 0.25);
+}
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.users-table-wrapper {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 22px;
+    overflow-x: auto;
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table thead {
+    background: #0f172a;
+}
+
+.users-table th {
+    padding: 18px;
+    text-align: left;
+
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+
+    color: #94a3b8;
+
+    border-bottom: 1px solid #334155;
+}
+
+.users-table td {
+    padding: 18px;
+    border-bottom: 1px solid #334155;
+    font-size: 14px;
+    color: #f8fafc;
+}
+
+.users-table tbody tr {
+    transition: 0.2s ease;
+}
+
+.users-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.users-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* =========================================================
+   ROLE BADGE
+========================================================= */
+
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 7px 14px;
+
+    border-radius: 999px;
+
+    background: rgba(59, 130, 246, 0.15);
+    color: #38bdf8;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ================= EDIT ================= */
+
+.edit-btn {
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: rgba(59, 130, 246, 0.15);
+    color: #38bdf8;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.edit-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(59, 130, 246, 0.22);
+}
+
+/* ================= DELETE ================= */
+
+.delete-btn {
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.delete-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(239, 68, 68, 0.22);
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-users {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 22px;
+
+    padding: 70px 20px;
+    text-align: center;
+}
+
+.empty-users h3 {
+    color: #f8fafc;
+    margin-bottom: 12px;
+    font-size: 24px;
+}
+
+.empty-users p {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+
+    .form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .manage-users-container {
+        padding: 16px;
+    }
+
+    .top-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box,
+    .sort-box {
+        width: 100%;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .user-form-card {
+        padding: 20px;
+    }
+
+    .users-table th,
+    .users-table td {
+        padding: 14px;
+        font-size: 13px;
+    }
+
+    .action-buttons {
+        flex-direction: row;
+    }
+}

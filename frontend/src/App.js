@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import MenuList from "./pages/MenuList";
 import MyOrders from "./pages/MyOrders";
 import VendorOrders from "./pages/VendorOrders";
-
+import CartPage from "./pages/Cart";
 
 function App() {
   return (
@@ -87,6 +87,14 @@ function App() {
             }
           />
 
+            <Route
+            path="/cart"
+            element={
+                <ProtectedRoute role="CUSTOMER">
+                    <CartPage />
+                </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>

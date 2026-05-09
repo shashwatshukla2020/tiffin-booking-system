@@ -15,12 +15,27 @@ public class Order {
     @Id
     private String id;
 
+    // ================= CUSTOMER =================
     private String customerEmail;
+
+    // ================= PRODUCT =================
     private String menuId;
     private String menuName;
-    private double price;
 
-    private String status; // PLACED, PREPARING, DELIVERED
+    // ⭐ IMPORTANT FOR CART SYSTEM
+    private int quantity;
 
+    private double price; // single item price
+
+    // ================= ORDER STATUS =================
+    private String status;
+    // PLACED, PREPARING, OUT_FOR_DELIVERY, DELIVERED
+
+    // ================= TIMESTAMPS =================
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    // ================= OPTIONAL (RECOMMENDED) =================
+
+    private String vendorEmail;   // useful for vendor dashboard later
 }

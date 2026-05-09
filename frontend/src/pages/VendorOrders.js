@@ -54,16 +54,7 @@ function VendorOrders() {
 
             <div className="orders-container">
 
-                {/* ================= HEADER ================= */}
-                <div className="orders-header">
-
-                    <h1>📦 Vendor Orders</h1>
-
-                    <p className="orders-subtitle">
-                        Manage customer orders and update delivery status.
-                    </p>
-
-                </div>
+                 
 
                 {/* ================= LOADING ================= */}
                 {loading ? (

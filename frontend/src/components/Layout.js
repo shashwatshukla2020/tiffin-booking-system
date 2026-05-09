@@ -50,7 +50,9 @@ function Layout({ children, title }) {
                     <div className="menu-section">
                         <h4>Admin</h4>
 
-                        <p onClick={() => navigate("/admin/users")}>
+                        <p 
+                        className={isActive("/admin/users")}
+                         onClick={() => navigate("/admin/users")}>
                             <Users size={18}/> Manage Users
                         </p>
 
@@ -88,13 +90,24 @@ function Layout({ children, title }) {
                     <div className="menu-section">
                         <h4>Customer</h4>
 
-                        <p onClick={() => navigate("/menu")}>
-                            <Utensils size={18}/> View Menu
+                        
+                        <p className={isActive("/menu")}
+                            onClick={() => navigate("/menu")} >
+                             <Utensils size={18}/> View Menu
+                        </p>
+                         
+                        <p className={isActive("/cart")}
+                            onClick={() => navigate("/cart")} >
+                            <ShoppingCart size={18}/> Cart
                         </p>
 
-                        <p onClick={() => navigate("/orders")}>
+
+                         <p className={isActive("/orders")}
+                            onClick={() => navigate("/orders")} >
                             <ShoppingCart size={18}/> My Orders
                         </p>
+
+                         
                     </div>
                 )}
 
@@ -131,12 +144,13 @@ function Layout({ children, title }) {
                     <div className="user-box">
 
                         <div className="avatar">
-                            {user?.sub?.charAt(0).toUpperCase()}
+                            {user?.name?.charAt(0).toUpperCase()}
                         </div>
 
                         <div>
                             <p className="user-name">
-                                {user?.sub}
+                                {user?.name}
+
 
                                 <span className="role">
                                     <br/>
