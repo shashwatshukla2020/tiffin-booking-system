@@ -118,13 +118,27 @@ function Cart() {
     };
 
     // ================= CHECKOUT =================
+    // ================= CHECKOUT =================
     const handleCheckout = async () => {
 
         try {
 
             setCheckingOut(true);
 
-            await API.post("/orders/checkout");
+            const payload = {
+                items: cartItems.map(item => ({
+                    menuId: item.menuId,
+                    menuName: item.menuName,
+                    category: item.category,
+                    imageUrl: item.imageUrl,
+                    price: item.price,
+                    quantity: item.quantity,
+                    total: item.price * item.quantity
+                })),
+                totalAmount
+            };
+
+            await API.post("/orders/checkout", payload);
 
             toast.success("Order placed successfully");
 
@@ -205,62 +219,89 @@ function Cart() {
                             {cartItems.map((item) => (
 
                                 <div
-                                    key={item.id}
-                                    className="cart-card"
-                                >
+    key={item.id}
+    className="cart-card"
+>
 
-                                    {/* INFO */}
-                                    <div className="cart-info">
+    {/* IMAGE */}
+    <div className="cart-image-wrapper">
 
-                                        <h3>
-                                            {item.menuName}
-                                        </h3>
+        <img
+            src={
+                item.imageUrl
+                    ? item.imageUrl
+                    : "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+            }
+            alt={item.menuName}
+            className="cart-image"
+        />
 
-                                        <p className="cart-price">
-                                            ₹ {item.price}
-                                        </p>
+    </div>
 
-                                    </div>
+    {/* INFO */}
+    <div className="cart-info">
 
-                                    {/* ACTIONS */}
-                                    <div className="cart-actions">
+        <div className="cart-top">
 
-                                        <div className="qty-box">
+            <h3>
+                {item.menuName}
+            </h3>
 
-                                            <button
-                                                className="qty-btn"
-                                                onClick={() => decreaseQty(item)}
-                                            >
-                                                −
-                                            </button>
+            <span className="cart-category">
+                {item.category || "Meal"}
+            </span>
 
-                                            <span className="qty-count">
-                                                {item.quantity}
-                                            </span>
+        </div>
 
-                                            <button
-                                                className="qty-btn"
-                                                onClick={() => increaseQty(item)}
-                                            >
-                                                +
-                                            </button>
+        <p className="cart-price">
+            ₹ {item.price}
+        </p>
 
-                                        </div>
+        <p className="cart-desc">
+            Fresh homemade delicious food prepared hygienically.
+        </p>
 
-                                        <div className="item-total">
-                                            ₹ {item.price * item.quantity}
-                                        </div>
+    </div>
 
-                                        <button
-                                            className="remove-btn"
-                                            onClick={() => removeItem(item.id)}
-                                        >
-                                            Remove
-                                        </button>
+    {/* ACTIONS */}
+    <div className="cart-actions">
 
-                                    </div>
+        <div className="qty-box">
 
-                                </div>
+            <button
+                className="qty-btn"
+                onClick={() => decreaseQty(item)}
+            >
+                −
+            </button>
+
+            <span className="qty-count">
+                {item.quantity}
+            </span>
+
+            <button
+                className="qty-btn"
+                onClick={() => increaseQty(item)}
+            >
+                +
+            </button>
+
+        </div>
+
+        <div className="item-total">
+            ₹ {item.price * item.quantity}
+        </div>
+
+        <button
+            className="remove-btn"
+            onClick={() => removeItem(item.id)}
+        >
+            Remove
+        </button>
+
+    </div>
+
+</div>
 
                             ))}
 

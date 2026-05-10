@@ -31,18 +31,22 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
 
-                        // ✅ PUBLIC (always first)
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/users/register").permitAll()
+                        // AUTH
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/api/users/register"
+                        ).permitAll()
 
-                        // 🔐 PROTECTED
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "CUSTOMER")
-                        .requestMatchers("/api/menu/**") .hasAnyRole("CUSTOMER", "VENDOR", "ADMIN")
-                        .requestMatchers("/api/orders/**").hasRole("CUSTOMER")
-                        .requestMatchers("/api/orders/all").hasRole("VENDOR")
-                        .requestMatchers("/api/orders/*/status").hasRole("VENDOR")
-                        // 🔒 fallback
+                        // MENU
+                        .requestMatchers("/api/menu/**").authenticated()
+                        // ORDERS
+                        .requestMatchers("/api/orders/all").hasAnyRole("VENDOR", "ADMIN")
+                        .requestMatchers("/api/orders/**").hasAnyRole("CUSTOMER", "VENDOR", "ADMIN")
+                        // CART
+                        .requestMatchers("/api/cart/**").hasRole("CUSTOMER")
+                        // ADMIN
+                        .requestMatchers("/api/users/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
 
                 )

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import {
     Search,
     UtensilsCrossed,
@@ -7,7 +8,9 @@ import {
     IndianRupee,
     Tags,
     FileText,
-    PlusCircle
+    PlusCircle,
+    Image as ImageIcon,
+    PackageCheck
 } from "lucide-react";
 
 import API from "../services/api";
@@ -17,18 +20,34 @@ import Layout from "../components/Layout";
 
 function AddMenu() {
 
+    // ================= STATES =================
+
     const [menus, setMenus] = useState([]);
 
     const [name, setName] = useState("");
+
     const [description, setDescription] = useState("");
+
     const [price, setPrice] = useState("");
+
     const [category, setCategory] = useState("");
 
+    const [veg, setVeg] = useState(true);
+
+    const [imageUrl, setImageUrl] = useState("");
+
+    const [available, setAvailable] = useState(true);
+
     const [search, setSearch] = useState("");
+
     const [editId, setEditId] = useState(null);
+
+    const [categories, setCategories] = useState([]);
+    // ================= FETCH MENUS =================
 
     useEffect(() => {
         fetchMenus();
+        fetchCategories();
     }, []);
 
     const fetchMenus = async () => {
@@ -36,6 +55,7 @@ function AddMenu() {
         try {
 
             const res = await API.get("/menu");
+
             setMenus(res.data);
 
         } catch (err) {
@@ -45,29 +65,70 @@ function AddMenu() {
         }
     };
 
+    const fetchCategories = async () => {
+
+        try {
+
+            const res = await API.get("/categories");
+
+            setCategories(res.data);
+
+        } catch {
+
+            toast.error("Failed to load categories");
+        }
+    };
+    // ================= CLEAR FORM =================
+
     const clearForm = () => {
 
         setName("");
+
         setDescription("");
+
         setPrice("");
+
         setCategory("");
+
+        setVeg(true);
+
+        setImageUrl("");
+
+        setAvailable(true);
+
         setEditId(null);
     };
 
+    // ================= SUBMIT =================
+
     const handleSubmit = async () => {
 
-        if (!name || !description || !price || !category) {
+        if (
+            !name ||
+            !description ||
+            !price ||
+            !category
+        ) {
             return toast.error("All fields are required");
         }
 
         try {
 
             const payload = {
+
                 name,
+
                 description,
+
                 price,
+
                 category,
-                available: true
+
+                veg,
+
+                imageUrl,
+
+                available
             };
 
             if (editId) {
@@ -84,28 +145,42 @@ function AddMenu() {
             }
 
             clearForm();
+
             fetchMenus();
 
         } catch {
 
             toast.error("Operation failed");
-
         }
     };
+
+    // ================= EDIT =================
 
     const handleEdit = (item) => {
 
         setEditId(item.id);
+
         setName(item.name);
+
         setDescription(item.description);
+
         setPrice(item.price);
+
         setCategory(item.category);
+
+        setVeg(item.veg);
+
+        setImageUrl(item.imageUrl || "");
+
+        setAvailable(item.available);
 
         window.scrollTo({
             top: 0,
             behavior: "smooth"
         });
     };
+
+    // ================= DELETE =================
 
     const handleDelete = async (id) => {
 
@@ -124,12 +199,15 @@ function AddMenu() {
         } catch {
 
             toast.error("Delete failed");
-
         }
     };
 
+    // ================= SEARCH =================
+
     const filteredMenus = menus.filter((item) =>
-        item.name.toLowerCase().includes(search.toLowerCase())
+        item.name
+            .toLowerCase()
+            .includes(search.toLowerCase())
     );
 
     return (
@@ -138,7 +216,8 @@ function AddMenu() {
 
             <div className="manage-menu-container">
 
-                {/* Top Controls */}
+                {/* ================= TOP CONTROLS ================= */}
+
                 <div className="top-controls">
 
                     <div className="search-box">
@@ -149,22 +228,32 @@ function AddMenu() {
                             type="text"
                             placeholder="Search menu..."
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={(e) =>
+                                setSearch(e.target.value)
+                            }
                         />
 
                     </div>
 
                 </div>
 
-                {/* Form Card */}
+                {/* ================= FORM ================= */}
+
                 <div className="menu-form-card">
 
                     <h2>
+
                         <UtensilsCrossed size={22} />
-                        {editId ? " Update Menu" : " Add Menu"}
+
+                        {editId
+                            ? " Update Menu"
+                            : " Add Menu"}
+
                     </h2>
 
                     <div className="form-grid">
+
+                        {/* NAME */}
 
                         <div className="input-icon-box">
 
@@ -174,10 +263,14 @@ function AddMenu() {
                                 type="text"
                                 placeholder="Menu Name"
                                 value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                onChange={(e) =>
+                                    setName(e.target.value)
+                                }
                             />
 
                         </div>
+
+                        {/* PRICE */}
 
                         <div className="input-icon-box">
 
@@ -187,30 +280,121 @@ function AddMenu() {
                                 type="number"
                                 placeholder="Price"
                                 value={price}
-                                onChange={(e) => setPrice(e.target.value)}
+                                onChange={(e) =>
+                                    setPrice(e.target.value)
+                                }
                             />
 
                         </div>
+
+                        {/* CATEGORY */}
 
                         <div className="input-icon-box">
 
                             <Tags size={18} />
 
-                            <select
+                             <select
                                 value={category}
-                                onChange={(e) => setCategory(e.target.value)}
+                                onChange={(e) =>
+                                    setCategory(e.target.value)
+                                }
                             >
-                                <option value="">Select Category</option>
-                                <option value="Breakfast">Breakfast</option>
-                                <option value="Lunch">Lunch</option>
-                                <option value="Dinner">Dinner</option>
-                                <option value="Snacks">Snacks</option>
-                                <option value="Drinks">Drinks</option>
+
+                                <option value="">
+                                    Select Category
+                                </option>
+
+                                {categories.map((cat) => (
+
+                                    <option
+                                        key={cat.id}
+                                        value={cat.name}
+                                    >
+
+                                        {cat.name}
+
+                                    </option>
+
+                                ))}
+
+                            </select>
+
+                        </div>
+
+                        {/* VEG / NON VEG */}
+
+                        <div className="input-icon-box">
+
+                            <UtensilsCrossed size={18} />
+
+                            <select
+                                value={veg}
+                                onChange={(e) =>
+                                    setVeg(
+                                        e.target.value === "true"
+                                    )
+                                }
+                            >
+
+                                <option value="true">
+                                    🟢 Veg
+                                </option>
+
+                                <option value="false">
+                                    🔴 Non-Veg
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        {/* AVAILABILITY */}
+
+                        <div className="input-icon-box">
+
+                            <PackageCheck size={18} />
+
+                            <select
+                                value={available}
+                                onChange={(e) =>
+                                    setAvailable(
+                                        e.target.value === "true"
+                                    )
+                                }
+                            >
+
+                                <option value="true">
+                                    Available
+                                </option>
+
+                                <option value="false">
+                                    Out Of Stock
+                                </option>
+
                             </select>
 
                         </div>
 
                     </div>
+
+                    {/* IMAGE URL */}
+
+                    <div className="input-icon-box full-width">
+
+                        <ImageIcon size={18} />
+
+                        <input
+                            type="text"
+                            placeholder="Enter Image URL"
+                            value={imageUrl}
+                            onChange={(e) =>
+                                setImageUrl(e.target.value)
+                            }
+                        />
+
+                    </div>
+
+                    {/* DESCRIPTION */}
 
                     <div className="textarea-box">
 
@@ -219,23 +403,32 @@ function AddMenu() {
                         <textarea
                             placeholder="Description"
                             value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            onChange={(e) =>
+                                setDescription(e.target.value)
+                            }
                         />
 
                     </div>
+
+                    {/* BUTTON */}
 
                     <button
                         className="save-btn"
                         onClick={handleSubmit}
                     >
+
                         <PlusCircle size={18} />
 
-                        {editId ? " Update Menu" : " Add Menu"}
+                        {editId
+                            ? " Update Menu"
+                            : " Add Menu"}
+
                     </button>
 
                 </div>
 
-                {/* Table */}
+                {/* ================= TABLE ================= */}
+
                 <div className="menu-table-wrapper">
 
                     <table className="menu-table">
@@ -243,10 +436,17 @@ function AddMenu() {
                         <thead>
 
                             <tr>
+
+                                <th>Image</th>
+
                                 <th>Name</th>
+
                                 <th>Category</th>
+
                                 <th>Price</th>
+
                                 <th>Actions</th>
+
                             </tr>
 
                         </thead>
@@ -259,20 +459,90 @@ function AddMenu() {
 
                                     <tr key={item.id}>
 
+                                        {/* IMAGE */}
+
                                         <td>
+
+                                            <img
+                                                src={
+                                                    item.imageUrl ||
+                                                    "https://via.placeholder.com/60"
+                                                }
+                                                alt={item.name}
+                                                className="menu-img"
+                                            />
+
+                                        </td>
+
+                                        {/* NAME */}
+
+                                        <td>
+
                                             <div className="menu-info">
-                                                <strong>{item.name}</strong>
-                                                <span>{item.description}</span>
+
+                                                <strong>
+                                                    {item.name}
+                                                </strong>
+
+                                                <span>
+                                                    {item.description}
+                                                </span>
+
                                             </div>
+
                                         </td>
+
+                                        {/* CATEGORY + BADGES */}
 
                                         <td>
-                                            <span className="category-badge">
-                                                {item.category}
-                                            </span>
+
+                                            <div className="menu-badges">
+
+                                                <span className="category-badge">
+                                                    {item.category}
+                                                </span>
+
+                                                <span
+                                                    className={
+                                                        item.veg
+                                                            ? "veg-badge"
+                                                            : "nonveg-badge"
+                                                    }
+                                                >
+
+                                                    {item.veg
+                                                        ? "🟢 Veg"
+                                                        : "🔴 Non-Veg"}
+
+                                                </span>
+
+                                                <span
+                                                    className={
+                                                        item.available
+                                                            ? "available-badge"
+                                                            : "stock-badge"
+                                                    }
+                                                >
+
+                                                    {item.available
+                                                        ? "Available"
+                                                        : "Out Of Stock"}
+
+                                                </span>
+
+                                            </div>
+
                                         </td>
 
-                                        <td>₹{item.price}</td>
+                                        {/* PRICE */}
+
+                                        <td>
+
+                                            ₹{item.price}
+
+                                        </td>
+
+                                        {/* ACTIONS */}
 
                                         <td>
 
@@ -280,16 +550,24 @@ function AddMenu() {
 
                                                 <button
                                                     className="edit-btn"
-                                                    onClick={() => handleEdit(item)}
+                                                    onClick={() =>
+                                                        handleEdit(item)
+                                                    }
                                                 >
+
                                                     <Pencil size={16} />
+
                                                 </button>
 
                                                 <button
                                                     className="delete-btn"
-                                                    onClick={() => handleDelete(item.id)}
+                                                    onClick={() =>
+                                                        handleDelete(item.id)
+                                                    }
                                                 >
+
                                                     <Trash2 size={16} />
+
                                                 </button>
 
                                             </div>
@@ -303,9 +581,16 @@ function AddMenu() {
                             ) : (
 
                                 <tr>
-                                    <td colSpan="4" className="empty-cell">
+
+                                    <td
+                                        colSpan="5"
+                                        className="empty-cell"
+                                    >
+
                                         No menu items found
+
                                     </td>
+
                                 </tr>
 
                             )}

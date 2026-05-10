@@ -11,9 +11,31 @@ public class Menu {
     @Id
     private String id;
 
+    // ================= BASIC =================
+
     private String name;
+
     private String description;
+
     private double price;
-    private boolean available;
+
+    // ================= AVAILABILITY =================
+
+    private boolean available = true;
+
+    // ================= VENDOR =================
+
     private String vendorId;
+
+    // ================= NEW FIELDS =================
+
+    // Breakfast / Lunch / Dinner / Snacks
+    private String category;
+
+    // true = Veg
+    // false = Non-Veg
+    private boolean veg;
+
+    // Food Image URL
+    private String imageUrl;
 }

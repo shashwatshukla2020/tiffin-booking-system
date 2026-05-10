@@ -1,14 +1,24 @@
 import { useEffect, useState } from "react";
+
 import API from "../services/api";
+
 import { toast } from "react-toastify";
 
 import Layout from "../components/Layout";
+
+import {
+    ShoppingBag,
+    CalendarDays,
+    IndianRupee,
+    PackageCheck
+} from "lucide-react";
 
 import "./Orders.css";
 
 function MyOrders() {
 
     const [orders, setOrders] = useState([]);
+
     const [loading, setLoading] = useState(true);
 
     // ================= FETCH ORDERS =================
@@ -19,13 +29,7 @@ function MyOrders() {
 
             const res = await API.get("/orders/my");
 
-            // ================= REMOVE CART ITEMS =================
-
-            const filteredOrders = res.data.filter(
-                (order) => order.status !== "CART"
-            );
-
-            setOrders(filteredOrders);
+            setOrders(res.data);
 
         } catch (err) {
 
@@ -36,10 +40,7 @@ function MyOrders() {
             setLoading(false);
 
         }
-
     };
-
-    // ================= LOAD ON PAGE OPEN =================
 
     useEffect(() => {
 
@@ -49,12 +50,25 @@ function MyOrders() {
 
     return (
 
-        <Layout title="Order History">
+        <Layout title="My Orders">
 
-            <div className="orders-container fade-in">
+            <div className="orders-container">
 
                 {/* ================= HEADER ================= */}
- 
+
+                {/* <div className="orders-header">
+
+                    <h1>
+                        <ShoppingBag size={28} />
+                        My Orders
+                    </h1>
+
+                    <p className="orders-subtitle">
+                        Track all your delicious meals and
+                        order history here.
+                    </p>
+
+                </div> */}
 
                 {/* ================= LOADING ================= */}
 
@@ -62,30 +76,23 @@ function MyOrders() {
 
                     <div className="loading-orders">
 
-                        <p>Loading your orders...</p>
+                        Loading your orders...
 
                     </div>
 
                 ) : orders.length === 0 ? (
 
-                    /* ================= EMPTY STATE ================= */
-
                     <div className="empty-orders">
 
-                        <h3>🛒 No Orders Yet</h3>
+                        <h3>No Orders Found</h3>
 
                         <p>
-
-                            You haven't placed any orders yet.
-                            Explore delicious homemade meals and place your first order.
-
+                            You haven't placed any order yet.
                         </p>
 
                     </div>
 
                 ) : (
-
-                    /* ================= ORDERS LIST ================= */
 
                     <div className="orders-list">
 
@@ -93,48 +100,117 @@ function MyOrders() {
 
                             <div
                                 key={order.id}
-                                className="order-row"
+                                className="order-card"
                             >
 
-                                {/* ================= LEFT ================= */}
+                                {/* ================= TOP ================= */}
 
-                                <div className="order-left">
+                                <div className="order-top">
 
-                                    <h3>
-                                        {order.menuName}
-                                    </h3>
+                                    <div>
 
-                                    <p className="order-date">
+                                        <h2>
+                                            Order #{order.id.slice(-5)}
+                                        </h2>
 
-                                        {new Date(order.createdAt).toLocaleString()}
+                                        <p className="order-date">
 
-                                    </p>
+                                            <CalendarDays size={14} />
 
-                                </div>
+                                            {new Date(
+                                                order.createdAt
+                                            ).toLocaleString()}
 
-                                {/* ================= CENTER ================= */}
+                                        </p>
 
-                                <div className="order-center">
-
-                                    <span className="price">
-
-                                        ₹ {order.price}
-
-                                    </span>
-
-                                </div>
-
-                                {/* ================= RIGHT ================= */}
-
-                                <div className="order-right">
+                                    </div>
 
                                     <span
                                         className={`status ${(order.status || "").toLowerCase()}`}
                                     >
-
                                         {order.status}
-
                                     </span>
+
+                                </div>
+
+                                {/* ================= ITEMS ================= */}
+
+                                <div className="order-items">
+
+                                    {order.items?.map((item, index) => (
+
+                                        <div
+                                            key={index}
+                                            className="order-item"
+                                        >
+
+                                            {/* IMAGE */}
+
+                                            <img
+                                                src={
+                                                    item.imageUrl ||
+                                                    "https://placehold.co/100x100?text=Food"
+                                                }
+                                                alt={item.menuName}
+                                            />
+
+                                            {/* DETAILS */}
+
+                                            <div className="item-details">
+
+                                                <h3>
+                                                    {item.menuName}
+                                                </h3>
+
+                                                <p>
+                                                    {item.category}
+                                                </p>
+
+                                                <span>
+                                                    Qty: {item.quantity}
+                                                </span>
+
+                                            </div>
+
+                                            {/* PRICE */}
+
+                                            <div className="item-price">
+
+                                                ₹ {item.total}
+
+                                            </div>
+
+                                        </div>
+
+                                    ))}
+
+                                </div>
+
+                                {/* ================= BOTTOM ================= */}
+
+                                <div className="order-bottom">
+
+                                    <div className="total-section">
+
+                                        <IndianRupee size={18} />
+
+                                        <span>
+                                            Total:
+                                        </span>
+
+                                        <strong>
+                                            ₹ {order.totalAmount}
+                                        </strong>
+
+                                    </div>
+
+                                    <div className="items-count">
+
+                                        <PackageCheck size={18} />
+
+                                        {order.items?.length} Items
+
+                                    </div>
 
                                 </div>
 
@@ -149,9 +225,7 @@ function MyOrders() {
             </div>
 
         </Layout>
-
     );
-
 }
 
 export default MyOrders;

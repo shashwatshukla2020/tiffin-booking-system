@@ -18,30 +18,55 @@ public class OrderController {
         this.service = service;
     }
 
-    // ✅ Place order
+    // ================= PLACE ORDER =================
     @PostMapping
-    public Order placeOrder(@RequestBody Order order, Authentication auth) {
-        return service.placeOrder(order, auth.getName());
+    public Order placeOrder(
+            @RequestBody Order order,
+            Authentication auth
+    ) {
+
+        return service.placeOrder(
+                order,
+                auth.getName()
+        );
     }
 
-    // ✅ Get my orders
+    // ================= MY ORDERS =================
     @GetMapping("/my")
-    public List<Order> getMyOrders(Authentication auth) {
-        return service.getMyOrders(auth.getName());
+    public List<Order> getMyOrders(
+            Authentication auth
+    ) {
+
+        return service.getMyOrders(
+                auth.getName()
+        );
     }
 
-
-    // Vendor → get all orders
+    // ================= ALL ORDERS =================
     @GetMapping("/all")
     public List<Order> getAllOrders() {
+
         return service.getAllOrders();
     }
 
-    // Vendor → update status
+    // ================= UPDATE STATUS =================
     @PutMapping("/{id}/status")
-    public Order updateStatus(@PathVariable String id,
-                              @RequestParam String status) {
+    public Order updateStatus(
+            @PathVariable String id,
+            @RequestParam String status
+    ) {
+
         return service.updateStatus(id, status);
     }
 
+    // ================= CHECKOUT =================
+    @PostMapping("/checkout")
+    public Order checkout(
+            Authentication auth
+    ) {
+
+        return service.checkout(
+                auth.getName()
+        );
+    }
 }

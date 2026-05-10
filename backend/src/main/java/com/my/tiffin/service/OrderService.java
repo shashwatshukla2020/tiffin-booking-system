@@ -6,18 +6,18 @@ import java.util.List;
 
 public interface OrderService {
 
-    // Place single order (optional legacy)
+    // ================= PLACE ORDER =================
     Order placeOrder(Order order, String email);
 
-    // Customer orders
+    // ================= MY ORDERS =================
     List<Order> getMyOrders(String email);
 
-    // Vendor orders
+    // ================= ALL ORDERS =================
     List<Order> getAllOrders();
 
-    // Update order status
+    // ================= UPDATE STATUS =================
     Order updateStatus(String orderId, String status);
 
-    // ⭐ ADD THIS
-    List<Order> checkout(String email);
+    // ================= CHECKOUT =================
+    Order checkout(String email);
 }
