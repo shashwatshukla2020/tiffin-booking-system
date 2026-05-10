@@ -6,74 +6,96 @@ import {
     User,
     Clock3,
     IndianRupee,
-    PackageCheck,
     ChefHat,
     Truck,
-    CheckCircle2
+    CheckCircle2,
+    Bike,
+    PackageCheck
 } from "lucide-react";
 
-import "./Orders.css";
+import "./VendorOrders.css";
 import Layout from "../components/Layout";
 
 function VendorOrders() {
 
     const [orders, setOrders] = useState([]);
+    const [deliveryBoys, setDeliveryBoys] = useState([]);
     const [loading, setLoading] = useState(true);
 
     // ================= FETCH ORDERS =================
-
     const fetchOrders = async () => {
-
         try {
-
             const res = await API.get("/orders/all");
-
             setOrders(res.data);
-
         } catch (err) {
-
             toast.error("Failed to load orders");
-
         } finally {
-
             setLoading(false);
+        }
+    };
 
+    // ================= FETCH DELIVERY BOYS =================
+    const fetchDeliveryBoys = async () => {
+        try {
+            const res = await API.get("/users/delivery");
+            setDeliveryBoys(res.data);
+        } catch (err) {
+            console.log(err);
         }
     };
 
     useEffect(() => {
         fetchOrders();
+        fetchDeliveryBoys();
     }, []);
 
     // ================= UPDATE STATUS =================
-
     const updateStatus = async (id, status) => {
+        try {
+            await API.put(`/orders/${id}/status?status=${status}`);
+            toast.success("Order updated");
+            fetchOrders();
+        } catch (err) {
+            toast.error("Failed to update");
+        }
+    };
 
+    // ================= ASSIGN DELIVERY BOY =================
+    const assignDeliveryBoy = async (orderId, deliveryEmail) => {
         try {
 
-            await API.put(`/orders/${id}/status?status=${status}`);
+            const selectedBoy = deliveryBoys.find(
+                boy => boy.email === deliveryEmail
+            );
 
-            toast.success("Order updated");
+            await API.put(
+                `/orders/${orderId}/assign-delivery`,
+                null,
+                {
+                    params: {
+                        deliveryEmail,
+                        deliveryName: selectedBoy?.name || ""
+                    }
+                }
+            );
 
+            toast.success("Delivery boy assigned");
+
+            // 🔥 IMPORTANT: sync UI with backend
             fetchOrders();
 
         } catch (err) {
-
-            toast.error("Failed to update");
-
+            toast.error("Failed to assign delivery");
         }
     };
 
     return (
-
         <Layout title="Vendor Orders">
 
             <div className="orders-container">
 
                 {/* ================= LOADING ================= */}
-
                 {loading ? (
-
                     <div className="loading-orders">
                         <p>Loading vendor orders...</p>
                     </div>
@@ -81,13 +103,8 @@ function VendorOrders() {
                 ) : orders.length === 0 ? (
 
                     <div className="empty-orders">
-
                         <h3>No Orders Found</h3>
-
-                        <p>
-                            Customer orders will appear here.
-                        </p>
-
+                        <p>Customer orders will appear here.</p>
                     </div>
 
                 ) : (
@@ -102,7 +119,6 @@ function VendorOrders() {
                             >
 
                                 {/* ================= TOP ================= */}
-
                                 <div className="vendor-order-top">
 
                                     <div className="vendor-user">
@@ -112,15 +128,10 @@ function VendorOrders() {
                                         </div>
 
                                         <div>
-
                                             <h3>
-                                                {order.customerName}
+                                                {order.customerName || "Customer"}
                                             </h3>
-
-                                            <p>
-                                                {order.customerEmail}
-                                            </p>
-
+                                            <p>{order.customerEmail}</p>
                                         </div>
 
                                     </div>
@@ -134,19 +145,14 @@ function VendorOrders() {
                                 </div>
 
                                 {/* ================= DATE ================= */}
-
                                 <div className="vendor-date">
-
                                     <Clock3 size={15} />
-
                                     <span>
                                         {new Date(order.createdAt).toLocaleString()}
                                     </span>
-
                                 </div>
 
                                 {/* ================= ITEMS ================= */}
-
                                 <div className="vendor-items">
 
                                     {order.items?.map((item, index) => (
@@ -155,8 +161,6 @@ function VendorOrders() {
                                             key={index}
                                             className="vendor-item-card"
                                         >
-
-                                            {/* IMAGE */}
 
                                             <img
                                                 src={
@@ -168,28 +172,17 @@ function VendorOrders() {
                                                 className="vendor-food-img"
                                             />
 
-                                            {/* DETAILS */}
-
                                             <div className="vendor-food-info">
 
-                                                <h4>
-                                                    {item.menuName}
-                                                </h4>
+                                                <h4>{item.menuName}</h4>
 
                                                 <p className="vendor-category">
                                                     {item.category}
                                                 </p>
 
                                                 <div className="vendor-meta">
-
-                                                    <span>
-                                                        Qty: {item.quantity}
-                                                    </span>
-
-                                                    <span>
-                                                        ₹ {item.price}
-                                                    </span>
-
+                                                    <span>Qty: {item.quantity}</span>
+                                                    <span>₹ {item.price}</span>
                                                 </div>
 
                                             </div>
@@ -200,24 +193,70 @@ function VendorOrders() {
 
                                 </div>
 
-                                {/* ================= TOTAL ================= */}
+                                {/* ================= BOTTOM ROW ================= */}
+                                <div className="vendor-bottom-row">
 
-                                <div className="vendor-total-section">
-
+                                    {/* TOTAL */}
                                     <div className="vendor-total">
+                                        <IndianRupee size={16} />
+                                        <span>₹ {order.totalAmount}</span>
+                                    </div>
 
-                                        <IndianRupee size={18} />
+                                    {/* DELIVERY ASSIGN */}
+                                    <div className="delivery-inline-box">
 
-                                        <span>
-                                            Total: ₹ {order.totalAmount}
-                                        </span>
+                                        <Bike size={16} />
+
+                                        <select
+                                            value={order.deliveryBoyEmail ?? ""}
+                                            onChange={(e) =>
+                                                assignDeliveryBoy(
+                                                    order.id,
+                                                    e.target.value
+                                                )
+                                            }
+                                            className="delivery-select"
+                                        >
+
+                                            <option value="">
+                                                Assign Delivery Boy
+                                            </option>
+
+                                            {deliveryBoys.map((boy) => (
+                                                <option
+                                                    key={boy.id}
+                                                    value={boy.email}
+                                                >
+                                                    {boy.name}
+                                                </option>
+                                            ))}
+
+                                        </select>
 
                                     </div>
 
                                 </div>
 
-                                {/* ================= ACTIONS ================= */}
+                                {/* ================= ASSIGNED INFO ================= */}
+                                {order.deliveryBoyEmail && (
 
+                                    <div className="assigned-delivery">
+
+                                        <PackageCheck size={15} />
+
+                                        <span>
+                                            Assigned to:
+                                            {" "}
+                                            <strong>
+                                                {order.deliveryBoyName}
+                                            </strong>
+                                        </span>
+
+                                    </div>
+
+                                )}
+
+                                {/* ================= ACTIONS ================= */}
                                 <div className="vendor-actions">
 
                                     <button

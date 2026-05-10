@@ -20,4 +20,12 @@ public interface OrderService {
 
     // ================= CHECKOUT =================
     Order checkout(String email);
+
+    List<Order> getDeliveryOrders(String email);
+
+//    Order assignDelivery(String orderId, String deliveryEmail);
+
+    Order updateDeliveryStatus(String orderId, String status);
+
+    Order assignDelivery(String orderId, String deliveryEmail, String deliveryName);
 }

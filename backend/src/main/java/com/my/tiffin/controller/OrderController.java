@@ -69,4 +69,44 @@ public class OrderController {
                 auth.getName()
         );
     }
+
+    @GetMapping("/delivery")
+    public List<Order> getDeliveryOrders(Authentication auth) {
+
+        return service.getDeliveryOrders(auth.getName());
+    }
+
+//    @PutMapping("/{id}/assign")
+//    public Order assignDelivery(
+//            @PathVariable String id,
+//            @RequestParam String deliveryEmail
+//    ) {
+//
+//        return service.assignDelivery(id, deliveryEmail);
+//    }
+
+    @PutMapping("/{id}/delivery-status")
+    public Order updateDeliveryStatus(
+            @PathVariable String id,
+            @RequestParam String status
+    ) {
+
+        return service.updateDeliveryStatus(id, status);
+    }
+
+    @PutMapping("/{id}/assign-delivery")
+    public Order assignDelivery(
+            @PathVariable String id,
+            @RequestParam String deliveryEmail,
+            @RequestParam String deliveryName
+    ) {
+
+        return service.assignDelivery(
+                id,
+                deliveryEmail,
+                deliveryName
+        );
+    }
+
+
 }

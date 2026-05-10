@@ -38,17 +38,34 @@ public class SecurityConfig {
                         ).permitAll()
 
                         // MENU
-                        .requestMatchers("/api/menu/**").authenticated()
-                        // ORDERS
-                        .requestMatchers("/api/orders/all").hasAnyRole("VENDOR", "ADMIN")
-                        .requestMatchers("/api/orders/**").hasAnyRole("CUSTOMER", "VENDOR", "ADMIN")
+                        .requestMatchers("/api/menu/**")
+                        .authenticated()
+
+                        // ASSIGN DELIVERY
+                        .requestMatchers("/api/orders/*/assign-delivery")
+                        .hasAnyRole("VENDOR", "ADMIN")
+
+                        // VENDOR ORDERS
+                        .requestMatchers("/api/orders/all")
+                        .hasAnyRole("VENDOR", "ADMIN")
+
+                        // ALL ORDER APIs
+                        .requestMatchers("/api/orders/**")
+                        .hasAnyRole("CUSTOMER", "VENDOR", "ADMIN", "DELIVERY")
+
                         // CART
-                        .requestMatchers("/api/cart/**").hasRole("CUSTOMER")
+                        .requestMatchers("/api/cart/**")
+                        .hasRole("CUSTOMER")
+
+                        // DELIVERY USERS
+                        .requestMatchers("/api/users/delivery")
+                        .hasAnyRole("VENDOR", "ADMIN")
+
                         // ADMIN
-                        .requestMatchers("/api/users/**").hasRole("ADMIN")
+                        .requestMatchers("/api/users/**")
+                        .hasRole("ADMIN")
 
                         .anyRequest().authenticated()
-
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

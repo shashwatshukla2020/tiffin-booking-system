@@ -145,4 +145,55 @@ public class OrderServiceImpl implements OrderService {
 
         return savedOrder;
     }
+
+
+    @Override
+    public List<Order> getDeliveryOrders(String email) {
+        return orderRepository.findByDeliveryBoyEmail(email);
+    }
+
+//    @Override
+//    public Order assignDelivery(String orderId, String deliveryEmail) {
+//
+//        Order order = orderRepository.findById(orderId)
+//                .orElseThrow(() -> new RuntimeException("Order not found"));
+//
+//        order.setDeliveryEmail(deliveryEmail);
+//        order.setStatus("PACKED");
+//
+//        return orderRepository.save(order);
+//    }
+
+    @Override
+    public Order updateDeliveryStatus(String orderId, String status) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        order.setStatus(status);
+
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public Order assignDelivery(
+            String orderId,
+            String deliveryEmail,
+            String deliveryName
+    ) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() ->
+                        new RuntimeException("Order not found"));
+
+        order.setDeliveryBoyEmail(deliveryEmail);
+        order.setDeliveryBoyName(deliveryName);
+
+        order.setStatus("PACKED");
+
+        order.setUpdatedAt(LocalDateTime.now());
+
+        return orderRepository.save(order);
+
+    }
 }

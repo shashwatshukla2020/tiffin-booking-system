@@ -195,9 +195,12 @@ function Layout({ children, title }) {
             <h4>Delivery</h4>
 
             {/* ASSIGNED ORDERS */}
-            <p>
-              <Truck size={18} />
-              Assigned Orders
+            <p
+                className={isActive("/delivery/orders")}
+                onClick={() => navigate("/delivery/orders")}
+            >
+                <Truck size={18} />
+                Assigned Orders
             </p>
 
             {/* DELIVERY STATUS */}

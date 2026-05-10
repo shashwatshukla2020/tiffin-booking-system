@@ -2,6 +2,7 @@ package com.my.tiffin.service;
 
 import com.my.tiffin.dto.user.UserRequestDTO;
 import com.my.tiffin.dto.user.UserResponseDTO;
+import com.my.tiffin.model.User;
 import com.my.tiffin.repository.UserRepository;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface UserService {
     UserResponseDTO updateUser(String id, UserRequestDTO dto);
 
     void deleteUser(String id);
+
+    List<User> getDeliveryUsers();
 }

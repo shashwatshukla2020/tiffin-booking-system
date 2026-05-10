@@ -19,6 +19,7 @@ import CartPage from "./pages/Cart";
 import MyOrders from "./pages/MyOrders";
 
 import ManageUsers from "./pages/ManageUsers";
+import AssignedOrders from "./pages/AssignedOrders";
 
 // ================= COMPONENTS =================
 
@@ -158,6 +159,21 @@ function App() {
                             </ProtectedRoute>
                         }
                     />
+
+
+
+                     {/* =======================================================
+                        DELIVERY ROUTES
+                    ======================================================= */}
+
+                        <Route
+                    path="/delivery/orders"
+                    element={
+                        <ProtectedRoute role="DELIVERY">
+                            <AssignedOrders />
+                        </ProtectedRoute>
+                    }
+                />
 
                 </Routes>
 

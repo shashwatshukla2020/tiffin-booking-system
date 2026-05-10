@@ -5,26 +5,6 @@
     color: #e2e8f0;
 }
 
-/* ================= HEADER ================= */
-
-.orders-header {
-    margin-bottom: 25px;
-}
-
-.orders-header h1 {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    font-size: 28px;
-    font-weight: 700;
-}
-
-.orders-subtitle {
-    margin-top: 8px;
-    color: #94a3b8;
-}
-
 /* ================= LOADING ================= */
 
 .loading-orders {
@@ -37,14 +17,20 @@
 
 .empty-orders {
     text-align: center;
-
     padding: 70px 20px;
-
     background: #1e293b;
-
-    border-radius: 20px;
-
+    border-radius: 22px;
     border: 1px solid #334155;
+}
+
+.empty-orders h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #f8fafc;
+}
+
+.empty-orders p {
+    color: #94a3b8;
 }
 
 /* ================= LIST ================= */
@@ -57,245 +43,13 @@
 
 /* ================= ORDER CARD ================= */
 
-.order-card {
-
-    background: #1e293b;
-
-    border: 1px solid #334155;
-
-    border-radius: 22px;
-
-    overflow: hidden;
-
-    transition: 0.25s ease;
-}
-
-.order-card:hover {
-
-    transform: translateY(-3px);
-
-    border-color: #38bdf8;
-}
-
-/* ================= TOP ================= */
-
-.order-top {
-
-    padding: 18px 22px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    border-bottom: 1px solid #334155;
-}
-
-.order-top h2 {
-    font-size: 18px;
-    margin-bottom: 6px;
-}
-
-.order-date {
-
-    display: flex;
-    align-items: center;
-    gap: 6px;
-
-    font-size: 13px;
-
-    color: #94a3b8;
-}
-
-/* ================= STATUS ================= */
-
-.status {
-
-    padding: 8px 14px;
-
-    border-radius: 999px;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    text-transform: uppercase;
-}
-
-.status.placed {
-    background: rgba(251,191,36,0.15);
-    color: #fbbf24;
-}
-
-.status.preparing {
-    background: rgba(59,130,246,0.15);
-    color: #60a5fa;
-}
-
-.status.out_for_delivery {
-    background: rgba(168,85,247,0.15);
-    color: #c084fc;
-}
-
-.status.delivered {
-    background: rgba(34,197,94,0.15);
-    color: #4ade80;
-}
-
-/* ================= ITEMS ================= */
-
-.order-items {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-/* ================= ITEM ================= */
-
-.order-item {
-
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    background: #0f172a;
-
-    border-radius: 16px;
-
-    padding: 14px;
-}
-
-.order-item img {
-
-    width: 85px;
-    height: 85px;
-
-    border-radius: 14px;
-
-    object-fit: cover;
-
-    border: 1px solid #334155;
-}
-
-/* ================= DETAILS ================= */
-
-.item-details {
-    flex: 1;
-}
-
-.item-details h3 {
-
-    font-size: 16px;
-
-    margin-bottom: 6px;
-}
-
-.item-details p {
-
-    color: #94a3b8;
-
-    font-size: 13px;
-
-    margin-bottom: 4px;
-}
-
-.item-details span {
-
-    font-size: 13px;
-
-    color: #38bdf8;
-}
-
-/* ================= PRICE ================= */
-
-.item-price {
-
-    font-size: 18px;
-
-    font-weight: 700;
-
-    color: #38bdf8;
-}
-
-/* ================= BOTTOM ================= */
-
-.order-bottom {
-
-    border-top: 1px solid #334155;
-
-    padding: 18px 22px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.total-section {
-
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    font-size: 15px;
-}
-
-.total-section strong {
-
-    font-size: 20px;
-
-    color: #38bdf8;
-}
-
-.items-count {
-
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    color: #94a3b8;
-}
-
-/* ================= MOBILE ================= */
-
-@media (max-width: 768px) {
-
-    .orders-container {
-        padding: 14px;
-    }
-
-    .order-top,
-    .order-bottom {
-
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 14px;
-    }
-
-    .order-item {
-
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .order-item img {
-
-        width: 100%;
-        height: 200px;
-    }
-
-    .item-price {
-        font-size: 16px;
-    }
-}
-
-
-/* ================= MODERN ORDER CARD ================= */
-
 .order-card-modern {
 
     background: #1e293b;
+
     border: 1px solid #334155;
 
-    border-radius: 22px;
+    border-radius: 24px;
 
     padding: 22px;
 
@@ -312,6 +66,8 @@
     transform: translateY(-3px);
 
     border-color: #38bdf8;
+
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
 }
 
 /* ================= TOP ================= */
@@ -335,8 +91,8 @@
 
 .vendor-avatar {
 
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
 
     border-radius: 50%;
 
@@ -353,6 +109,7 @@
 
     color: #f8fafc;
     font-size: 17px;
+
     margin-bottom: 4px;
 }
 
@@ -372,6 +129,7 @@
     gap: 8px;
 
     color: #94a3b8;
+
     font-size: 13px;
 }
 
@@ -385,6 +143,8 @@
 
     font-size: 12px;
     font-weight: 700;
+
+    text-transform: uppercase;
 }
 
 .status-badge.placed {
@@ -437,20 +197,21 @@
 
 .vendor-food-img {
 
-    width: 85px;
-    height: 85px;
+    width: 90px;
+    height: 90px;
 
     border-radius: 14px;
 
     object-fit: cover;
 
     border: 1px solid #334155;
+
+    flex-shrink: 0;
 }
 
 /* ================= INFO ================= */
 
 .vendor-food-info {
-
     flex: 1;
 }
 
@@ -459,6 +220,8 @@
     color: #f8fafc;
 
     margin-bottom: 6px;
+
+    font-size: 15px;
 }
 
 .vendor-category {
@@ -473,9 +236,11 @@
 .vendor-meta {
 
     display: flex;
+
     gap: 18px;
 
     color: #cbd5e1;
+
     font-size: 13px;
 }
 
@@ -496,8 +261,73 @@
 
     color: #4ade80;
 
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 700;
+}
+
+/* ================= DELIVERY ASSIGN ================= */
+
+.delivery-assign-box {
+
+    background: #0f172a;
+
+    border: 1px solid #334155;
+
+    border-radius: 16px;
+
+    padding: 16px;
+}
+
+.delivery-title {
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 12px;
+
+    color: #f8fafc;
+    font-weight: 600;
+}
+
+.delivery-select {
+
+    width: 100%;
+
+    padding: 12px 14px;
+
+    background: #1e293b;
+
+    border: 1px solid #334155;
+
+    border-radius: 12px;
+
+    color: #f8fafc;
+
+    outline: none;
+}
+
+.delivery-select:focus {
+
+    border-color: #38bdf8;
+}
+
+/* ================= ASSIGNED ================= */
+
+.assigned-delivery {
+
+    margin-top: 12px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: #4ade80;
+
+    font-size: 13px;
+    font-weight: 600;
 }
 
 /* ================= ACTIONS ================= */
@@ -535,6 +365,8 @@
     transform: translateY(-2px);
 }
 
+/* ================= BUTTONS ================= */
+
 .prepare-btn {
 
     background: rgba(59,130,246,0.15);
@@ -557,6 +389,10 @@
 
 @media (max-width: 768px) {
 
+    .orders-container {
+        padding: 14px;
+    }
+
     .vendor-order-top {
 
         flex-direction: column;
@@ -572,11 +408,10 @@
     .vendor-food-img {
 
         width: 100%;
-        height: 180px;
+        height: 220px;
     }
 
     .vendor-actions {
-
         width: 100%;
     }
 
@@ -587,44 +422,126 @@
     }
 }
 
-/* ================= DELIVERY ASSIGN ================= */
+/* ================= BOTTOM ROW ================= */
 
-.assign-box {
-    margin-top: 14px;
+.vendor-bottom-row {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 16px;
+
+    flex-wrap: wrap;
+
+    margin-top: 6px;
 }
 
-.assign-box select {
+/* ================= TOTAL ================= */
 
-    width: 100%;
+.vendor-total {
 
-    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    color: #4ade80;
+}
+
+/* ================= DELIVERY INLINE ================= */
+
+.delivery-inline-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
     background: #0f172a;
-
     border: 1px solid #334155;
+
+    padding: 8px 12px;
     border-radius: 12px;
+
+    width: 240px;
+    max-width: 100%;
+}
+
+ 
+.delivery-bike-icon {
+
+    color: #38bdf8;
+}
+
+/* ================= SELECT ================= */
+
+.delivery-select {
+
+    background: transparent;
+
+    border: none;
+
+    outline: none;
 
     color: #f8fafc;
 
+    width: 100%;
+ padding: 6px;
     font-size: 13px;
 
-    outline: none;
+    cursor: pointer;
 }
 
-.assign-box select:focus {
+.delivery-select option {
 
-    border-color: #38bdf8;
+    background: #0f172a;
+    color: white;
 }
 
+/* ================= ASSIGNED ================= */
 
-/* DELIVERY PERSON */
+.assigned-delivery {
 
-.delivery-person {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 8px;
 
     margin-top: 10px;
 
-    color: #38bdf8;
+    background: rgba(34,197,94,0.12);
+
+    color: #4ade80;
+
+    padding: 8px 14px;
+
+    border-radius: 999px;
 
     font-size: 13px;
-    font-weight: 600;
+
+    width: fit-content;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+    .vendor-bottom-row {
+
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .delivery-inline-box {
+
+        width: 100%;
+        min-width: unset;
+    }
+
+    .vendor-total {
+
+        justify-content: center;
+    }
 }

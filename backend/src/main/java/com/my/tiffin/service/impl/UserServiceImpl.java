@@ -19,16 +19,21 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
-
+    private final UserRepository userRepository;
 
 //    public UserServiceImpl(UserRepository repository) {
 //        this.repository = repository;
 //    }
 
-    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository repository,
+                           PasswordEncoder passwordEncoder) {
+
         this.repository = repository;
+        this.userRepository = repository;
         this.passwordEncoder = passwordEncoder;
     }
+
+
 
     // 🔹 Register User
     @Override
@@ -139,5 +144,12 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         repository.delete(user);
+    }
+
+    @Override
+    public List<User> getDeliveryUsers() {
+
+
+        return repository.findByRolesContaining("DELIVERY");
     }
 }
