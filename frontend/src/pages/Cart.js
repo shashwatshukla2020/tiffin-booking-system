@@ -169,12 +169,7 @@ function Cart() {
 
                 {/* ================= HEADER ================= */}
                 <div className="cart-header">
-
-                    <div>
-                        
-
-                         
-                    </div>
+ 
 
                     {cartItems.length > 0 && (
                         <div className="cart-count">
@@ -201,6 +196,7 @@ function Cart() {
                         </div>
 
                         <h2>Your cart is empty</h2>
+                        
 
                         <p>
                             Add delicious homemade meals to continue.
